@@ -1,76 +1,76 @@
-from ipz_hid.linux.HID_linux_device import *
-from ipz_hid.core.HID_usages import *
+from ipz_hid.core.HID_classes import HIDDescriptor
 from ipz_hid.core.HID_items import *
+from ipz_hid.core.HID_usages import *
 
-# !!! Deskriptor neupravovať !!!
+# neupravený deskriptor
 descriptor = HIDDescriptor([
     UsagePageItem(UsagePage.GENERIC_DESKTOP),
     UsageItem(GenericDesktopUsage.KEYBOARD),
     CollectionItem(HIDCollectionType.APPLICATION),
 
-    # Modifier byte
-    ReportSizeItem(1),
-    ReportCountItem(8),
+    # 0-9
     UsagePageItem(UsagePage.KEYBOARD_KEYPAD),
-    UsageMinimumItem(224),
-    UsageMaximumItem(231),
+    ReportSizeItem(1),
+    ReportCountItem(10),
     LogicalMinItem(0),
     LogicalMaxItem(1),
+    UsageMinimumItem(KeyboardUsage.NUMBER_1),
+    UsageMaximumItem(KeyboardUsage.NUMBER_0),
     InputItem(HIDFieldAttributes(is_variable=True)),
-
-    # Reserved byte
-    ReportCountItem(1),
-    ReportSizeItem(8),
-    InputItem(HIDFieldAttributes(is_constant=True)),
-
-    # LED output report (5 bits)
-    ReportCountItem(5),
+    # A and B
     ReportSizeItem(1),
-    UsagePageItem(UsagePage.LEDS),
-    UsageMinimumItem(1),
-    UsageMaximumItem(5),
-    OutputItem(HIDFieldAttributes(is_variable=True)),
-
-    # LED report padding (3 bits)
-    ReportCountItem(1),
-    ReportSizeItem(3),
-    OutputItem(HIDFieldAttributes(is_constant=True)),
-
-    # Key array (6 bytes)
-    ReportCountItem(6),
-    ReportSizeItem(8),
-    UsagePageItem(UsagePage.KEYBOARD_KEYPAD),
-    UsageMinimumItem(0),
-    UsageMaximumItem(255),
+    ReportCountItem(2),
     LogicalMinItem(0),
-    LogicalMaxItem(255),
-    InputItem(HIDFieldAttributes(is_variable=False)),
-
+    LogicalMaxItem(1),
+    UsageItem(KeyboardUsage.A),
+    UsageItem(KeyboardUsage.B),
+    InputItem(HIDFieldAttributes(is_variable=True)),
+    # Padding
+    ReportSizeItem(4),
+    ReportCountItem(1),
+    InputItem(HIDFieldAttributes(is_constant=True)),
     EndCollectionItem()
 ])
-# !!! Deskriptor neupravovať !!!
 
-
-# Úlohy na zmenu výzmamu HID upravením vstupného reportu.
-# 
-# V týchto úlohách budeme meniť report z klávesnice (celý deskriptor je vyšie). Report má 8 bajtov:
-# - bajt 0: bity 0-7 reprezentujú modifikátory (Ctrl, Shift, Alt, GUI, ...)
-# - bajt 1: reserved (nepoužíva sa a vždy je 0)
-# - bajt 2-7: reprezentujú stlačené klávesy (0 ak žiadna klávesa nie je stlačená, inak kód stlačenej klávesy)
-
-
-
-#  Úloha 1: Zmeňte report tak, aby boli klávesy A a B vymenené.
-def vymena_klaves(report: bytearray)->bytearray:
-    # Referenčné riešenie
-    new_report = bytearray(report)
-    # Vymeníme klávesy A (0x1E) a B (0x30)
-    for i in range(2, 8):
-        if new_report[i] == KeyboardUsage.A:
-            new_report[i] = KeyboardUsage.B
-        elif new_report[i] == KeyboardUsage.B:
-            new_report[i] = KeyboardUsage.A
-    return new_report
+# Úlohy na zmenu výzmamu HID upravením deskriptoru.
+# V týchto úlohách budeme meniť report descriptor z klávesnice.Descriptor opisuje 16 bitov (2 bajty): 
+# - bity 0-9 reprezentujú čísla 1-0 (1,2,3,4,5,6,7,8,9,0), 
+# - bity 10-11 reprezentujú klávesy A a B, 
+# - bity 12-15 sú padding.
+# Opis vo forme bajtov:
+# - bajt 0: bity 0-7 reprezentujú čísla 1-8 
+# - bajt 1: bity 0 a 1 reprezentujú čísla 9 a 0, bity 2 a 3 reprezentujú klávesy A a B, ostatné bity sú padding 
 
 
 
+# Úloha 1: Upravte descriptor_1 tak, aby boli klávesy A a B vymenené.
+descriptor_1 = HIDDescriptor([
+    UsagePageItem(UsagePage.GENERIC_DESKTOP),
+    UsageItem(GenericDesktopUsage.KEYBOARD),
+    CollectionItem(HIDCollectionType.APPLICATION),
+
+    # 0-9
+    UsagePageItem(UsagePage.KEYBOARD_KEYPAD),
+    ReportSizeItem(1),
+    ReportCountItem(10),
+    LogicalMinItem(0),
+    LogicalMaxItem(1),
+    UsageMinimumItem(KeyboardUsage.NUMBER_1),
+    UsageMaximumItem(KeyboardUsage.NUMBER_0),
+    InputItem(HIDFieldAttributes(is_variable=True)),
+    # A and B
+    ReportSizeItem(1),
+    ReportCountItem(2),
+    LogicalMinItem(0),
+    LogicalMaxItem(1),
+    UsageItem(KeyboardUsage.A),
+    UsageItem(KeyboardUsage.B),
+    InputItem(HIDFieldAttributes(is_variable=True)),
+    # Padding
+    ReportSizeItem(4),
+    ReportCountItem(1),
+    InputItem(HIDFieldAttributes(is_constant=True)),
+    EndCollectionItem()
+])
+def vymena_klaves()->HIDDescriptor:
+  return descriptor_1
