@@ -1,8 +1,11 @@
 from ipz_hid.linux.HID_linux_device import *
 from ipz_hid.core.HID_usages import *
 
+# Nový deskriptor ktorý zariadenie bude používať.
+# Pozor: deskriptor nemení binárny formát reportu - zariadenie stále posiela rovnaké dáta,
+# pomocou zmeneného deskriptoru je ale možné zmeniť ich význam.
 new_descriptor: HIDDescriptor = HIDDescriptor([
-#sem skopírujte upravený deskriptor s predošlej úlohy
+# sem skopírujte upravený deskriptor s predošlej úlohy
 ])
 
 def main():
@@ -21,7 +24,8 @@ def main():
     try:
         while True:
             report = bytearray(device.read_input_report_raw())
-            print(f"Raw report: {report.hex()}")
+#           tu je možné meniť dáta/formát reportu pred jeho spracovaním
+#           print(f"Raw report: {report.hex()}")
             device.process_input_report(report)
     except (KeyboardInterrupt, OSError):
         device.stop()
