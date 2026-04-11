@@ -1,7 +1,7 @@
 from evdev import ecodes
 from ipz_hid.linux.input_state import InputState
 from ipz_hid.linux.mapper import HIDLinuxMapper
-from virtual.uloha_1 import *
+from uloha_1 import *
 from ipz_hid.core.HID_classes import *
 
 
