@@ -9,12 +9,13 @@ new_descriptor: HIDDescriptor = HIDDescriptor([
 ])
 
 def main():
+    # nastavenia pre pripojenie k zariadeniu
     options = HIDLinuxDeviceOptions(
         attach_hidraw=True,
         make_virtual_device=True,
         grab_events=True,
     )
-
+    # pripojenie k zariadeniu ktoré má v názve "Keyboard"
     device = HIDLinuxDevice.from_device_name("Keyboard", options)
     descriptor = device.get_descriptor()
     device.start()
@@ -24,8 +25,8 @@ def main():
     try:
         while True:
             report = bytearray(device.read_input_report_raw())
-#           tu je možné meniť dáta/formát reportu pred jeho spracovaním
-#           print(f"Raw report: {report.hex()}")
+        #   tu je možné meniť dáta/formát reportu pred jeho spracovaním
+        #   print(f"Raw report: {report.hex()}")
             device.process_input_report(report)
     except (KeyboardInterrupt, OSError):
         device.stop()
