@@ -1,7 +1,9 @@
 from ipz_hid.linux.HID_linux_device import *
 from ipz_hid.core.HID_usages import *
 
-# Nový deskriptor ktorý zariadenie bude používať.
+# Úloha
+# V tejto úlohe upravíte report descriptor klávesnice podla vašek potreby tak aby výsledok bolo možné vidieť na robotovy.
+# napr. ak máte pohyb robota ovládaný klávesami 4 a 6, môžete ich význam pomocou deskriptoru vymeniť
 # Pozor: deskriptor nemení binárny formát reportu - zariadenie stále posiela rovnaké dáta,
 # pomocou zmeneného deskriptoru je ale možné zmeniť ich význam.
 new_descriptor: HIDDescriptor = HIDDescriptor([
