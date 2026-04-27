@@ -62,63 +62,40 @@ descriptor = HIDDescriptor([
 # Úloha 1: Zmeňte report tak, aby boli klávesy A a B vymenené.
 def vymena_klaves(report: bytearray) -> bytearray:
     new_report = bytearray(report)
-    for i in range(2, 8):
-        if new_report[i] == KeyboardUsage.A:
-            new_report[i] = KeyboardUsage.B
-        elif new_report[i] == KeyboardUsage.B:
-            new_report[i] = KeyboardUsage.A
     return new_report
 
 
-# Úloha 2: Zablokujte kláves A.
+# Úloha 2: Zablokujte klávesu A.
 # Ak je kláves A stlačený, zmeňte ho na 0. Ostatné klávesy a modifikátory ponechajte nezmenené.
 def zablokuj_a(report: bytearray) -> bytearray:
     new_report = bytearray(report)
-    for i in range(2, 8):
-        if new_report[i] == KeyboardUsage.A:
-            new_report[i] = 0
     return new_report
 
 
 # Úloha 3: Zmeňte kláves C na D.
+# Neriešte duplicitné stlačenie (ak sa D už v reporte nachádza nechajte ho tam) 
 def c_na_d(report: bytearray) -> bytearray:
     new_report = bytearray(report)
-    for i in range(2, 8):
-        if new_report[i] == KeyboardUsage.C:
-            new_report[i] = KeyboardUsage.D
     return new_report
 
 
 # Úloha 4: Zablokujte všetky modifikátory.
 def odstran_modifikatory(report: bytearray) -> bytearray:
     new_report = bytearray(report)
-    new_report[0] = 0
     return new_report
 
 
-# Úloha 5: Vymeňte ľavý Shift a pravý Shift.
-# bit 1 = Left Shift, bit 5 = Right Shift
+# Úloha 5: Vymeňte ľavý shift a pravý shift.
+# bit 1 = ľavý shift, bit 5 = pravý shift
 def vymena_shiftov(report: bytearray) -> bytearray:
     new_report = bytearray(report)
-
-    left_shift = (new_report[0] >> 1) & 1
-    right_shift = (new_report[0] >> 5) & 1
-
-    new_report[0] &= ~(1 << 1)
-    new_report[0] &= ~(1 << 5)
-
-    new_report[0] |= (left_shift << 5)
-    new_report[0] |= (right_shift << 1)
-
     return new_report
 
 
 # Úloha 6: Urobte z každého písmena veľké písmeno.
-# To znamená, že ak je stlačená aspoň jedna klávesa, nastavte Left Shift.
+# To znamená, že ak je stlačená aspoň jedna klávesa, nastavte ľavý shift.
 def vzdy_shift(report: bytearray) -> bytearray:
     new_report = bytearray(report)
-    if any(new_report[i] != 0 for i in range(2, 8)):
-        new_report[0] |= (1 << 1)  # Left Shift
     return new_report
 
 
@@ -126,13 +103,6 @@ def vzdy_shift(report: bytearray) -> bytearray:
 # Usages sú KeyboardUsage.NUMBER_1,.., KeyboardUsage.F1,..
 def cisla_na_funkcne(report: bytearray) -> bytearray:
     new_report = bytearray(report)
-    for i in range(2, 8):
-        if new_report[i] == KeyboardUsage.NUMBER_1:
-            new_report[i] = KeyboardUsage.F1
-        elif new_report[i] == KeyboardUsage.NUMBER_2:
-            new_report[i] = KeyboardUsage.F2
-        elif new_report[i] == KeyboardUsage.NUMBER_3:
-            new_report[i] = KeyboardUsage.F3
     return new_report
 
 
@@ -140,22 +110,12 @@ def cisla_na_funkcne(report: bytearray) -> bytearray:
 # bit 0 = Left Ctrl, bit 4 = Right Ctrl, kláves C = KeyboardUsage.C
 def blokuj_ctrl_c(report: bytearray) -> bytearray:
     new_report = bytearray(report)
-    left_ctrl = (new_report[0] >> 0) & 1
-    right_ctrl = (new_report[0] >> 4) & 1
-
-    if left_ctrl or right_ctrl:
-        for i in range(2, 8):
-            if new_report[i] == KeyboardUsage.C:
-                new_report[i] = 0
-
     return new_report
 
 
-# Úloha 9: Premeňte kláves Q na kombináciu Ctrl+Q.
+# Úloha 9: Premeňte klávesu Q na kombináciu Ctrl+Q.
 def q_na_ctrl_q(report: bytearray) -> bytearray:
     new_report = bytearray(report)
-    if KeyboardUsage.Q in new_report[2:8]:
-        new_report[0] |= (1 << 0)  # Left Ctrl
     return new_report
 
 
