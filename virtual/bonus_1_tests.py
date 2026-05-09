@@ -1,7 +1,7 @@
-from ipz_hid.core.HID_classes import HIDDescriptor
-from ipz_hid.linux.HID_linux_device import HIDLinuxDevice, HIDLinuxDeviceOptions
-from ipz_hid.core.HID_usages import *
-from ipz_hid.core.HID_items import *
+from ipz_hid.core.descriptor import HIDDescriptor
+from ipz_hid.linux.hid_linux_device import HIDLinuxDevice, HIDLinuxDeviceOptions
+from ipz_hid.core.hid_usages import *
+from ipz_hid.core.hid_items import *
 from bonus_1 import (
     vymena_klaves,
     zablokuj_a,

@@ -1,6 +1,6 @@
-from ipz_hid.linux.HID_linux_device import *
-from ipz_hid.core.HID_usages import *
-from ipz_hid.core.HID_items import *
+from ipz_hid.linux.hid_linux_device import *
+from ipz_hid.core.hid_usages import *
+from ipz_hid.core.hid_items import *
 
 # !!! Deskriptor neupravovať !!!
 descriptor = HIDDescriptor([

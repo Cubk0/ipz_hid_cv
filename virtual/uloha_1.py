@@ -1,6 +1,6 @@
-from ipz_hid.core.HID_classes import HIDDescriptor
-from ipz_hid.core.HID_items import *
-from ipz_hid.core.HID_usages import *
+from ipz_hid.core.descriptor import HIDDescriptor
+from ipz_hid.core.hid_items import *
+from ipz_hid.core.hid_usages import *
 
 # neupravený deskriptor
 # tento deskriptor neupravujte úloha je nižšie

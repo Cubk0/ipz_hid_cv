@@ -2,7 +2,7 @@ from evdev import ecodes
 from ipz_hid.linux.input_state import InputState
 from ipz_hid.linux.mapper import HIDLinuxMapper
 from uloha_1 import *
-from ipz_hid.core.HID_classes import *
+from ipz_hid.core.device import HIDDevice
 
 
 GREEN = "\033[92m"

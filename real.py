@@ -1,5 +1,6 @@
-from ipz_hid.linux.HID_linux_device import *
-from ipz_hid.core.HID_usages import *
+from ipz_hid.linux.hid_linux_device import *
+from ipz_hid.core.hid_usages import *
+from ipz_hid.core.hid_items import *
 
 # Úloha
 # V tejto úlohe upravíte report descriptor klávesnice podla vašek potreby tak aby výsledok bolo možné vidieť na robotovy.
